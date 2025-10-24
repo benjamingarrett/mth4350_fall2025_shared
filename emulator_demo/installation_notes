@@ -1,0 +1,49 @@
+1. Install the Quick Emulator (QEMU)
+
+On my Ubuntu machine, I did the following (your specific steps may vary):
+
+sudo apt update
+sudo apt install qemu-system-misc qemu-user
+
+When I check the version that's installed via:
+
+qemu-system-riscv32 --version
+
+I get the message:
+
+QEMU emulator version 6.2.0 (Debian 1:6.2+dfsg-2ubuntu6.27)
+Copyright (c) 2003-2021 Fabrice Bellard and the QEMU Project developers
+
+Then I did:
+
+sudo apt install gcc-riscv64-unknown-elf
+
+2. Get a simple example to get converted from assembly language to object code.
+
+------------------------------------------------
+.text
+.global _start
+
+_start:
+  li t0, 1         # t0 = 1
+  li t1, 2         # t1 = 2
+  add t2, t0, t1   # t2 = t0 + t1
+  li a7, 93        # ecall number for exit
+  li a0, 0         # exit code 0
+  ecall
+------------------------------------------------
+               example.s
+
+Note that the series of hyphens above are not part of the contents of the file.
+They merely serve as a visual separator.
+Unless you are abundantly confident about your technological skills, please avoid IDE's or other tools that hide or complicate this process. The above is just a text file with a *.s file extension used by convention.
+
+I assemble the file into an object file:
+
+riscv64-unknown-elf-as -march=rv32i -o example.o example.s
+
+When I look at the object file using 
+
+Second, I created a file containing RISC-V 32-bit assembly language, called example.s
+
+Third, I 
